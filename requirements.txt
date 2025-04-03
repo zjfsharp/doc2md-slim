@@ -1,0 +1,11 @@
+pdfminer.six>=20221105
+camelot-py>=0.11.0
+PyMuPDF>=1.23.8
+pandas>=2.0.0
+numpy>=1.24.0
+opencv-python>=4.8.0
+ghostscript>=0.7 
+# 注意：camelot-py需要Ghostscript作为系统依赖
+# 在macOS上安装Ghostscript: brew install ghostscript
+# 在Ubuntu/Debian上安装: sudo apt-get install ghostscript
+# 在Windows上安装: 从https://ghostscript.com/releases/gsdnld.html下载安装程序 
