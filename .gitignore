@@ -1,4 +1,47 @@
-venv
-__pycache__
-output.md
-image*
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# 虚拟环境
+venv/
+ENV/
+
+# 环境变量
+.env
+
+# 输出文件
+*.md
+!README.md
+images/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+
+# 日志
+*.log
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+*.swo

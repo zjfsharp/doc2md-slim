@@ -9,3 +9,8 @@ ghostscript>=0.7
 # 在macOS上安装Ghostscript: brew install ghostscript
 # 在Ubuntu/Debian上安装: sudo apt-get install ghostscript
 # 在Windows上安装: 从https://ghostscript.com/releases/gsdnld.html下载安装程序 
+
+# 多模态模型依赖
+requests>=2.31.0
+Pillow>=10.0.0
+python-dotenv>=1.0.0  # 用于加载环境变量 
