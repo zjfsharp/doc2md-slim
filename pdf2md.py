@@ -41,7 +41,7 @@ def clean_text(text):
         print(f"Warning: Text cleaning failed: {e}")
         return ""
 
-def pdf_to_markdown_with_camelot_tables(pdf_path, output_md_path, max_heading_level=4, table_mode="lattice"):
+def pdf_to_markdown(pdf_path, output_md_path, max_heading_level=4, table_mode="lattice"):
     markdown_content = StringIO()
 
     # 初始化工具
@@ -57,6 +57,11 @@ def pdf_to_markdown_with_camelot_tables(pdf_path, output_md_path, max_heading_le
 
         # 1. 提取表格（Camelot）
         tables = camelot.read_pdf(pdf_path, pages=str(page_num + 1), flavor=table_mode)
+        # 提取每个表格的边界框坐标
+        # table._bbox包含表格的边界坐标，格式为[x0, y0, x1, y1]
+        # x0, y0: 表格左上角坐标
+        # x1, y1: 表格右下角坐标
+        # 这些坐标将用于后续检测文本是否与表格重叠
         table_bboxes = [(table._bbox[0], table._bbox[1], table._bbox[2], table._bbox[3]) for table in tables]
 
         for table_num, table in enumerate(tables):
@@ -160,4 +165,4 @@ def pdf_to_markdown_with_camelot_tables(pdf_path, output_md_path, max_heading_le
 # 使用示例
 pdf_path = "/Users/zhongjiafeng/Desktop/SalesMiniProgram250319.pdf"
 output_md_path = "./output.md"
-pdf_to_markdown_with_camelot_tables(pdf_path, output_md_path, max_heading_level=4, table_mode="lattice")
+pdf_to_markdown(pdf_path, output_md_path, max_heading_level=4, table_mode="lattice")
