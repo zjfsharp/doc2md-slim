@@ -66,120 +66,120 @@ class MarkdownConverter:
         """
         return self.image_processor.process_markdown_images(content)
     
-    def process_tables(self, content):
-        """
-        处理Markdown内容中的表格
+#     def process_tables(self, content):
+#         """
+#         处理Markdown内容中的表格
         
-        Args:
-            content: Markdown内容
+#         Args:
+#             content: Markdown内容
             
-        Returns:
-            处理后的Markdown内容
-        """
-        # 匹配Markdown中的表格语法
-        table_pattern = r'(\|[^\n]+\|\n\|[-:\|\s]+\|\n)(\|[^\n]+\|\n)+'
+#         Returns:
+#             处理后的Markdown内容
+#         """
+#         # 匹配Markdown中的表格语法
+#         table_pattern = r'(\|[^\n]+\|\n\|[-:\|\s]+\|\n)(\|[^\n]+\|\n)+'
         
-        def replace_table(match):
-            table = match.group(0)
+#         def replace_table(match):
+#             table = match.group(0)
             
-            # 提取表格内容
-            rows = table.strip().split('\n')
-            if len(rows) < 3:
-                return table  # 如果表格行数不足，保持原样
+#             # 提取表格内容
+#             rows = table.strip().split('\n')
+#             if len(rows) < 3:
+#                 return table  # 如果表格行数不足，保持原样
             
-            # 构建表格描述
-            table_desc = f"""
-> TABLE BEGIN [table1]
-> Rows: {len(rows) - 2}  # 减去表头和分隔行
-> Columns: {len(re.findall(r'\|', rows[0])) - 1}  # 减去第一个和最后一个|
-> Content: {rows[0].strip()}
-> TABLE END
-"""
-            # 返回原始表格和描述
-            return f"{table}\n{table_desc}"
+#             # 构建表格描述
+#             table_desc = f"""
+# > TABLE BEGIN [table1]
+# > Rows: {len(rows) - 2}  # 减去表头和分隔行
+# > Columns: {len(re.findall(r'\|', rows[0])) - 1}  # 减去第一个和最后一个|
+# > Content: {rows[0].strip()}
+# > TABLE END
+# """
+#             # 返回原始表格和描述
+#             return f"{table}\n{table_desc}"
         
-        # 替换所有表格
-        processed_content = re.sub(table_pattern, replace_table, content)
+#         # 替换所有表格
+#         processed_content = re.sub(table_pattern, replace_table, content)
         
-        return processed_content
+#         return processed_content
     
-    def process_urls(self, content):
-        """
-        处理Markdown内容中的URL
+#     def process_urls(self, content):
+#         """
+#         处理Markdown内容中的URL
         
-        Args:
-            content: Markdown内容
+#         Args:
+#             content: Markdown内容
             
-        Returns:
-            处理后的Markdown内容
-        """
-        # 匹配Markdown中的URL语法
-        url_pattern = r'\[(.*?)\]\((https?://[^\s\)]+)\)'
+#         Returns:
+#             处理后的Markdown内容
+#         """
+#         # 匹配Markdown中的URL语法
+#         url_pattern = r'\[(.*?)\]\((https?://[^\s\)]+)\)'
         
-        def replace_url(match):
-            text = match.group(1)
-            url = match.group(2)
+#         def replace_url(match):
+#             text = match.group(1)
+#             url = match.group(2)
             
-            # 构建URL描述
-            url_desc = f"""
-> URL BEGIN [url1]
-> Text: {text}
-> Link: {url}
-> URL END
-"""
-            # 返回原始URL和描述
-            return f"{match.group(0)}\n{url_desc}"
+#             # 构建URL描述
+#             url_desc = f"""
+# > URL BEGIN [url1]
+# > Text: {text}
+# > Link: {url}
+# > URL END
+# """
+#             # 返回原始URL和描述
+#             return f"{match.group(0)}\n{url_desc}"
         
-        # 替换所有URL
-        processed_content = re.sub(url_pattern, replace_url, content)
+#         # 替换所有URL
+#         processed_content = re.sub(url_pattern, replace_url, content)
         
-        return processed_content
+#         return processed_content
     
-    def process_formulas(self, content):
-        """
-        处理Markdown内容中的数学公式
+#     def process_formulas(self, content):
+#         """
+#         处理Markdown内容中的数学公式
         
-        Args:
-            content: Markdown内容
+#         Args:
+#             content: Markdown内容
             
-        Returns:
-            处理后的Markdown内容
-        """
-        # 匹配Markdown中的数学公式语法
-        inline_formula_pattern = r'\$([^\$]+)\$'
-        block_formula_pattern = r'\$\$([^\$]+)\$\$'
+#         Returns:
+#             处理后的Markdown内容
+#         """
+#         # 匹配Markdown中的数学公式语法
+#         inline_formula_pattern = r'\$([^\$]+)\$'
+#         block_formula_pattern = r'\$\$([^\$]+)\$\$'
         
-        def replace_inline_formula(match):
-            formula = match.group(1)
+#         def replace_inline_formula(match):
+#             formula = match.group(1)
             
-            # 构建公式描述
-            formula_desc = f"""
-> FORMULA BEGIN [formula1]
-> Type: inline
-> Content: {formula}
-> FORMULA END
-"""
-            # 返回原始公式和描述
-            return f"{match.group(0)}\n{formula_desc}"
+#             # 构建公式描述
+#             formula_desc = f"""
+# > FORMULA BEGIN [formula1]
+# > Type: inline
+# > Content: {formula}
+# > FORMULA END
+# """
+#             # 返回原始公式和描述
+#             return f"{match.group(0)}\n{formula_desc}"
         
-        def replace_block_formula(match):
-            formula = match.group(1)
+#         def replace_block_formula(match):
+#             formula = match.group(1)
             
-            # 构建公式描述
-            formula_desc = f"""
-> FORMULA BEGIN [formula1]
-> Type: block
-> Content: {formula}
-> FORMULA END
-"""
-            # 返回原始公式和描述
-            return f"{match.group(0)}\n{formula_desc}"
+#             # 构建公式描述
+#             formula_desc = f"""
+# > FORMULA BEGIN [formula1]
+# > Type: block
+# > Content: {formula}
+# > FORMULA END
+# """
+#             # 返回原始公式和描述
+#             return f"{match.group(0)}\n{formula_desc}"
         
-        # 替换所有公式
-        processed_content = re.sub(inline_formula_pattern, replace_inline_formula, content)
-        processed_content = re.sub(block_formula_pattern, replace_block_formula, processed_content)
+#         # 替换所有公式
+#         processed_content = re.sub(inline_formula_pattern, replace_inline_formula, content)
+#         processed_content = re.sub(block_formula_pattern, replace_block_formula, processed_content)
         
-        return processed_content
+#         return processed_content
     
     def convert(self):
         """
@@ -195,13 +195,13 @@ class MarkdownConverter:
         content = self.process_images(content)
         
         # 处理表格
-        content = self.process_tables(content)
+        # content = self.process_tables(content)
         
-        # 处理URL
-        content = self.process_urls(content)
+        # # 处理URL
+        # content = self.process_urls(content)
         
-        # 处理数学公式
-        content = self.process_formulas(content)
+        # # 处理数学公式
+        # content = self.process_formulas(content)
         
-        # 写入向量友好的Markdown文件
+        # # 写入向量友好的Markdown文件
         self.write_markdown(content, self.emb_md_path) 

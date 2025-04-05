@@ -57,6 +57,21 @@ class ImageProcessor:
             with Image.open(image_path) as img:
                 width, height = img.size
                 format = img.format.lower()
+
+                # 检查图片尺寸，如果宽或高超过1024，进行等比例缩放
+                # max_dimension = max(width, height)
+                # if max_dimension > 512:
+                #     # 计算缩放比例
+                #     scale_ratio = 512 / max_dimension
+                #     # 按比例计算新的宽高
+                #     new_width = int(width * scale_ratio)
+                #     new_height = int(height * scale_ratio)
+                #     # 缩放图片
+                #     img = img.resize((new_width, new_height), Image.LANCZOS)
+                #     # 更新宽高信息
+                #     width, height = img.size
+                #     print(f"图片已缩放: 从 {max_dimension} 缩放到 512，新尺寸为 {width}x{height}")
+
                 return {
                     "width": width,
                     "height": height,
@@ -116,7 +131,10 @@ class ImageProcessor:
                             "type": "image_url",
                             "image_url": {
                                 "url": f"data:image/{image_info['format']};base64,{base64_image}"
-                            }
+                            },
+                            "min_pixels": 256 * 256,
+                            "max_pixels": 1280 * 28 * 28,
+                            "detail": "high",
                         }
                     ]
                 }
@@ -148,6 +166,7 @@ class ImageProcessor:
 > Size: {image_info['size']}
 > IMAGE END
 """
+            print(image_desc)
             return image_desc
         except Exception as e:
             print(f"图片分析失败: {e}")
