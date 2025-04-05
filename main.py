@@ -47,5 +47,6 @@ def main():
     
     print("处理完成!")
 
+# python main.py --pdf your_file.pdf
 if __name__ == "__main__":
     main() 

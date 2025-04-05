@@ -180,6 +180,7 @@ class MarkdownConverter:
 #         processed_content = re.sub(block_formula_pattern, replace_block_formula, processed_content)
         
 #         return processed_content
+
     
     def convert(self):
         """
@@ -197,10 +198,10 @@ class MarkdownConverter:
         # 处理表格
         # content = self.process_tables(content)
         
-        # # 处理URL
+        # 处理URL
         # content = self.process_urls(content)
         
-        # # 处理数学公式
+        # 处理数学公式
         # content = self.process_formulas(content)
         
         # # 写入向量友好的Markdown文件

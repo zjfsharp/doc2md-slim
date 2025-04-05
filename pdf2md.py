@@ -163,6 +163,6 @@ def pdf_to_markdown(pdf_path, output_md_path, max_heading_level=4, table_mode="l
     markdown_content.close()
 
 # 使用示例
-pdf_path = "/Users/zhongjiafeng/Desktop/SalesMiniProgram250319.pdf"
-output_md_path = "./output.md"
-pdf_to_markdown(pdf_path, output_md_path, max_heading_level=4, table_mode="lattice")
+# pdf_path = "/Users/zhongjiafeng/Desktop/SalesMiniProgram250319.pdf"
+# output_md_path = "./output.md"
+# pdf_to_markdown(pdf_path, output_md_path, max_heading_level=4, table_mode="lattice")
