@@ -1,0 +1,1 @@
+rm -rf emb.md raw.md output.md images/*
