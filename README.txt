@@ -1,11 +1,12 @@
-# PDF转Markdown工具
+# 文档转Markdown工具
 
-这是一个将PDF文件转换为Markdown格式的工具，并进一步处理为向量友好的格式。
+这是一个将PDF文件和Word文档转换为Markdown格式的工具，并进一步处理为向量友好的格式。
 
 ## 功能特点
 
 - 将PDF文件转换为Markdown格式
-- 提取PDF中的文本、表格、图片等内容
+- 将Word文档转换为Markdown格式
+- 提取文档中的文本、表格、图片等内容
 - 使用多模态模型分析图片内容
 - 将Markdown转换为向量友好的格式，便于后续处理
 
@@ -24,11 +25,17 @@ cd doc2md-slim
 pip install -r requirements.txt
 ```
 
-3. 安装系统依赖（camelot-py需要）：
+3. 安装系统依赖：
 
-- macOS: `brew install ghostscript`
-- Ubuntu/Debian: `sudo apt-get install ghostscript`
-- Windows: 从 https://ghostscript.com/releases/gsdnld.html 下载安装程序
+- camelot-py需要Ghostscript：
+  - macOS: `brew install ghostscript`
+  - Ubuntu/Debian: `sudo apt-get install ghostscript`
+  - Windows: 从 https://ghostscript.com/releases/gsdnld.html 下载安装程序
+
+- pypandoc需要pandoc：
+  - macOS: `brew install pandoc`
+  - Ubuntu/Debian: `sudo apt-get install pandoc`
+  - Windows: 从 https://pandoc.org/installing.html 下载安装程序
 
 4. 配置API密钥：
 
@@ -43,8 +50,14 @@ cp .env.example .env
 
 ### 基本用法
 
+#### 转换PDF文件
 ```bash
 python main.py --pdf your_file.pdf
+```
+
+#### 转换Word文档
+```bash
+python main.py --docx your_file.docx
 ```
 
 ### 高级用法
@@ -53,22 +66,23 @@ python main.py --pdf your_file.pdf
 python main.py --pdf your_file.pdf --raw custom_raw.md --emb custom_emb.md --max-heading 3 --table-mode stream
 ```
 
-### 跳过PDF转换步骤
+### 跳过文档转换步骤
 
-如果你已经有了raw.md文件，可以跳过PDF转换步骤：
+如果你已经有了raw.md文件，可以跳过文档转换步骤：
 
 ```bash
-python main.py --skip-pdf --raw existing_raw.md --emb output_emb.md
+python main.py --skip-convert --raw existing_raw.md --emb output_emb.md
 ```
 
 ## 参数说明
 
 - `--pdf`: PDF文件路径
+- `--docx`: Word文档路径
 - `--raw`: 原始Markdown文件路径（默认为raw.md）
 - `--emb`: 向量友好的Markdown文件路径（默认为emb.md）
-- `--max-heading`: 最大标题级别（默认为4）
-- `--table-mode`: 表格提取模式，可选"lattice"或"stream"（默认为"lattice"）
-- `--skip-pdf`: 跳过PDF转换步骤，直接处理已有的raw.md文件
+- `--max-heading`: 最大标题级别（PDF专用，默认为4）
+- `--table-mode`: 表格提取模式，可选"lattice"或"stream"（PDF专用，默认为"lattice"）
+- `--skip-convert`: 跳过文档转换步骤，直接处理已有的raw.md文件
 
 ## 输出格式
 

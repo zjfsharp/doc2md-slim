@@ -45,3 +45,6 @@ images/
 .idea/
 *.swp
 *.swo
+
+test.docx
+test.pdf

@@ -10,6 +10,13 @@ ghostscript>=0.7
 # 在Ubuntu/Debian上安装: sudo apt-get install ghostscript
 # 在Windows上安装: 从https://ghostscript.com/releases/gsdnld.html下载安装程序 
 
+# Word文档转换依赖
+pypandoc>=1.12.0
+# 注意：pypandoc需要pandoc作为系统依赖
+# 在macOS上安装pandoc: brew install pandoc
+# 在Ubuntu/Debian上安装: sudo apt-get install pandoc
+# 在Windows上安装: 从https://pandoc.org/installing.html下载安装程序
+
 # 多模态模型依赖
 requests>=2.31.0
 Pillow>=10.0.0
