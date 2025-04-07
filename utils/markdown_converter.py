@@ -4,7 +4,7 @@ Markdown转换模块，负责将raw.md转换为emb.md
 
 import os
 import re
-from image_processor import ImageProcessor
+from utils.image_processor import ImageProcessor
 from config import PATH_CONFIG
 
 class MarkdownConverter:

@@ -4,9 +4,9 @@
 
 import os
 import argparse
-from pdf2md import pdf_to_markdown
-from docx2md import docx_to_markdown
-from markdown_converter import MarkdownConverter
+from utils.pdf2md import pdf_to_markdown
+from utils.docx2md import docx_to_markdown
+from utils.markdown_converter import MarkdownConverter
 from config import PATH_CONFIG
 from env_loader import load_env
 
