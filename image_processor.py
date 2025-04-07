@@ -155,16 +155,68 @@ class ImageProcessor:
             
             # 提取分析结果
             analysis = result["choices"][0]["message"]["content"]
+            analysis = analysis.replace('\n', '|+|')
+            analysis = analysis.replace('<br>', '|+|')
+            # 提取OCR、DESC和CONTEXT标签中的内容
+            ocr_content = ""
+            desc_content = ""
+            context_content = ""
+            
+            # 提取OCR内容
+            ocr_match = re.search(r'<OCR>(.*?)</OCR>', analysis)
+            if ocr_match:
+                ocr_content = ocr_match.group(1)
+            else:
+                # 如果没有完整的OCR标签，尝试提取部分内容
+                ocr_start = analysis.find('<OCR>')
+                if ocr_start != -1:
+                    ocr_start += 5  # 跳过<OCR>标签
+                    desc_start = analysis.find('<DESC>', ocr_start)
+                    if desc_start != -1:
+                        ocr_content = analysis[ocr_start:desc_start]
+                    else:
+                        # 如果没有找到下一个标签，取到字符串结束
+                        ocr_content = analysis[ocr_start:]
+            
+            # 提取DESC内容
+            desc_match = re.search(r'<DESC>(.*?)</DESC>', analysis)
+            if desc_match:
+                desc_content = desc_match.group(1)
+            else:
+                # 如果没有完整的DESC标签，尝试提取部分内容
+                desc_start = analysis.find('<DESC>')
+                if desc_start != -1:
+                    desc_start += 6  # 跳过<DESC>标签
+                    context_start = analysis.find('<CONTEXT>', desc_start)
+                    if context_start != -1:
+                        desc_content = analysis[desc_start:context_start]
+                    else:
+                        # 如果没有找到下一个标签，取到字符串结束
+                        desc_content = analysis[desc_start:]
+            
+            # 提取CONTEXT内容
+            context_match = re.search(r'<CONTEXT>(.*?)</CONTEXT>', analysis)
+            if context_match:
+                context_content = context_match.group(1)
+            else:
+                # 如果没有完整的CONTEXT标签，尝试提取部分内容
+                context_start = analysis.find('<CONTEXT>')
+                if context_start != -1:
+                    context_start += 9  # 跳过<CONTEXT>标签
+                    context_content = analysis[context_start:]
+            
             
             # 构建完整的图片描述
-            image_desc = f"""
-> IMAGE BEGIN [img1]
-> Desc: {analysis}
-> Alt: {os.path.basename(image_path)}
-> Path: {image_path}
-> Type: {image_info['format']}
-> Size: {image_info['size']}
-> IMAGE END
+            # 每行的末尾都有两个空格，这是markdown语法中需要的引用块内部换行
+            image_desc = f"""> IMAGE_BEGIN  
+> Path: {image_path}  
+> Alt: {os.path.basename(image_path)}  
+> OCR: {ocr_content}  
+> DESC: {desc_content}  
+> CONTEXT: {context_content}  
+> Type: {image_info['format']}  
+> Size: {image_info['size']}  
+> IMAGE_END  
 """
             print(image_desc)
             return image_desc
