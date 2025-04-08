@@ -224,6 +224,136 @@ class ImageProcessor:
             print(f"图片分析失败: {e}")
             return f"图片分析失败: {e}"
     
+    def image_to_markdown(self, image_path, output_md_path):
+        """
+        将单个图片转换为Markdown格式
+        
+        Args:
+            image_path: 图片路径
+            output_md_path: 输出的Markdown文件路径
+            
+        Returns:
+            bool: 转换是否成功
+        """
+        try:
+            # 检查图片是否存在
+            if not os.path.exists(image_path):
+                print(f"错误：图片 '{image_path}' 不存在！")
+                return False
+                
+            # 获取图片文件名和信息
+            img_name = os.path.basename(image_path)
+            img_info = self.get_image_info(image_path)
+            
+            # 生成标准的Markdown图片标记
+            img_markdown = f"![{img_name}]({image_path})\n"
+            
+            # 分析图片内容
+            analysis = self.analyze_image(image_path)
+            
+            # 组合成完整的Markdown内容
+            md_content = f"# 图片内容分析\n\n{img_markdown}\n{analysis}\n\n"
+            
+            # 如果分析中提取到了OCR文本内容，添加到Markdown中
+            ocr_match = re.search(r'OCR: (.*?)(\|+\||$)', analysis)
+            if ocr_match and ocr_match.group(1).strip():
+                ocr_text = ocr_match.group(1).replace('|+|', '\n')
+                md_content += f"## 文本内容\n\n{ocr_text}\n\n"
+            
+            # 提取描述
+            desc_match = re.search(r'Desc: (.*?)(\|+\||$)', analysis)
+            if desc_match and desc_match.group(1).strip():
+                desc_text = desc_match.group(1).replace('|+|', '\n')
+                md_content += f"## 图片描述\n\n{desc_text}\n\n"
+                
+            # 写入Markdown文件
+            with open(output_md_path, 'w', encoding='utf-8') as f:
+                f.write(md_content)
+                
+            print(f"图片成功转换为Markdown：{output_md_path}")
+            return True
+            
+        except Exception as e:
+            print(f"图片转换为Markdown失败: {e}")
+            return False
+            
+    def image_dir_to_markdown(self, image_dir, output_md_path):
+        """
+        将目录中的多个图片转换为单个Markdown文件
+        
+        Args:
+            image_dir: 图片目录路径
+            output_md_path: 输出的Markdown文件路径
+            
+        Returns:
+            bool: 转换是否成功
+        """
+        try:
+            # 检查目录是否存在
+            if not os.path.exists(image_dir) or not os.path.isdir(image_dir):
+                print(f"错误：目录 '{image_dir}' 不存在或不是目录！")
+                return False
+                
+            # 支持的图片格式
+            supported_formats = IMAGE_CONFIG["supported_formats"]
+            
+            # 获取目录中的所有图片文件
+            image_files = []
+            for root, dirs, files in os.walk(image_dir):
+                for file in files:
+                    # 检查文件扩展名
+                    ext = file.lower().split('.')[-1]
+                    if ext in supported_formats:
+                        image_files.append(os.path.join(root, file))
+            
+            if not image_files:
+                print(f"目录 '{image_dir}' 中没有找到支持的图片文件！")
+                return False
+                
+            # 初始化Markdown内容
+            md_content = f"# 图片集合分析\n\n共 {len(image_files)} 张图片\n\n"
+            
+            # 处理每个图片
+            for idx, img_path in enumerate(image_files, 1):
+                print(f"处理第 {idx}/{len(image_files)} 张图片: {img_path}")
+                
+                # 获取图片文件名
+                img_name = os.path.basename(img_path)
+                
+                # 生成标准的Markdown图片标记
+                img_markdown = f"![{img_name}]({img_path})\n"
+                
+                # 分析图片内容
+                analysis = self.analyze_image(img_path)
+                
+                # 添加到Markdown内容
+                md_content += f"## 图片 {idx}: {img_name}\n\n{img_markdown}\n{analysis}\n\n"
+                
+                # 提取OCR文本，如果有
+                ocr_match = re.search(r'OCR: (.*?)(\|+\||$)', analysis)
+                if ocr_match and ocr_match.group(1).strip():
+                    ocr_text = ocr_match.group(1).replace('|+|', '\n')
+                    md_content += f"### 文本内容\n\n{ocr_text}\n\n"
+                
+                # 提取描述
+                desc_match = re.search(r'Desc: (.*?)(\|+\||$)', analysis)
+                if desc_match and desc_match.group(1).strip():
+                    desc_text = desc_match.group(1).replace('|+|', '\n')
+                    md_content += f"### 图片描述\n\n{desc_text}\n\n"
+                
+                md_content += "---\n\n"
+            
+            # 写入Markdown文件
+            with open(output_md_path, 'w', encoding='utf-8') as f:
+                f.write(md_content)
+                
+            print(f"图片集合成功转换为Markdown：{output_md_path}")
+            return True
+            
+        except Exception as e:
+            print(f"图片集合转换为Markdown失败: {e}")
+            return False
+    
     def process_markdown_images(self, markdown_content):
         """
         处理Markdown内容中的图片，将其转换为向量友好的格式
