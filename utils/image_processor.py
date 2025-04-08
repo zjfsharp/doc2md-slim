@@ -248,24 +248,9 @@ class ImageProcessor:
             # 生成标准的Markdown图片标记
             img_markdown = f"![{img_name}]({image_path})\n"
             
-            # 分析图片内容
-            analysis = self.analyze_image(image_path)
-            
             # 组合成完整的Markdown内容
-            md_content = f"# 图片内容分析\n\n{img_markdown}\n{analysis}\n\n"
+            md_content = f"# 图片内容分析\n\n{img_markdown}\n"
             
-            # 如果分析中提取到了OCR文本内容，添加到Markdown中
-            ocr_match = re.search(r'OCR: (.*?)(\|+\||$)', analysis)
-            if ocr_match and ocr_match.group(1).strip():
-                ocr_text = ocr_match.group(1).replace('|+|', '\n')
-                md_content += f"## 文本内容\n\n{ocr_text}\n\n"
-            
-            # 提取描述
-            desc_match = re.search(r'Desc: (.*?)(\|+\||$)', analysis)
-            if desc_match and desc_match.group(1).strip():
-                desc_text = desc_match.group(1).replace('|+|', '\n')
-                md_content += f"## 图片描述\n\n{desc_text}\n\n"
-                
             # 写入Markdown文件
             with open(output_md_path, 'w', encoding='utf-8') as f:
                 f.write(md_content)
@@ -323,23 +308,8 @@ class ImageProcessor:
                 # 生成标准的Markdown图片标记
                 img_markdown = f"![{img_name}]({img_path})\n"
                 
-                # 分析图片内容
-                analysis = self.analyze_image(img_path)
-                
                 # 添加到Markdown内容
-                md_content += f"## 图片 {idx}: {img_name}\n\n{img_markdown}\n{analysis}\n\n"
-                
-                # 提取OCR文本，如果有
-                ocr_match = re.search(r'OCR: (.*?)(\|+\||$)', analysis)
-                if ocr_match and ocr_match.group(1).strip():
-                    ocr_text = ocr_match.group(1).replace('|+|', '\n')
-                    md_content += f"### 文本内容\n\n{ocr_text}\n\n"
-                
-                # 提取描述
-                desc_match = re.search(r'Desc: (.*?)(\|+\||$)', analysis)
-                if desc_match and desc_match.group(1).strip():
-                    desc_text = desc_match.group(1).replace('|+|', '\n')
-                    md_content += f"### 图片描述\n\n{desc_text}\n\n"
+                md_content += f"## 图片 {idx}: {img_name}\n\n{img_markdown}\n\n"
                 
                 md_content += "---\n\n"
             
