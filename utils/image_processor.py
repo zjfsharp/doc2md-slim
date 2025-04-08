@@ -249,7 +249,7 @@ class ImageProcessor:
             img_markdown = f"![{img_name}]({image_path})\n"
             
             # 组合成完整的Markdown内容
-            md_content = f"# 图片内容分析\n\n{img_markdown}\n"
+            md_content = f"### 图片内容分析\n\n{img_markdown}\n"
             
             # 写入Markdown文件
             with open(output_md_path, 'w', encoding='utf-8') as f:
@@ -296,7 +296,7 @@ class ImageProcessor:
                 return False
                 
             # 初始化Markdown内容
-            md_content = f"# 图片集合分析\n\n共 {len(image_files)} 张图片\n\n"
+            md_content = f"### 图片集合分析\n\n共 {len(image_files)} 张图片\n\n"
             
             # 处理每个图片
             for idx, img_path in enumerate(image_files, 1):
@@ -309,7 +309,7 @@ class ImageProcessor:
                 img_markdown = f"![{img_name}]({img_path})\n"
                 
                 # 添加到Markdown内容
-                md_content += f"## 图片 {idx}: {img_name}\n\n{img_markdown}\n\n"
+                md_content += f"#### 图片 {idx}: {img_name}\n\n{img_markdown}\n\n"
                 
                 md_content += "---\n\n"
             
