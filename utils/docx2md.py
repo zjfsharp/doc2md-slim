@@ -5,6 +5,7 @@ Word文档转Markdown模块，负责将Word文档转换为Markdown格式
 import os
 import pypandoc
 import re
+import uuid
 
 def clean_text(text):
     """清理文本内容，确保可以正确显示在Markdown中"""
@@ -153,7 +154,8 @@ def docx_to_markdown(docx_path, output_md_path):
         output_md_path: 输出的Markdown文件路径
     """
     # 创建图片保存目录
-    img_dir = 'images'
+
+    img_dir = f'images_{uuid.uuid4().hex[:8]}'  # 使用uuid生成唯一标识符
     if not os.path.exists(img_dir):
         os.makedirs(img_dir)
     
