@@ -21,6 +21,8 @@ class ImageProcessor:
         Args:
             config: 配置字典，如果为None则使用默认配置
         """
+        from env_loader import load_env
+        load_env()
         self.config = config or MULTIMODAL_CONFIG
         self.api_key = self.config.get("api_key")
         self.base_url = self.config.get("base_url")
