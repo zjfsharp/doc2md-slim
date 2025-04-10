@@ -148,7 +148,7 @@ class MarkdownConverter:
         content = self.process_images(content)
         
         # 处理表格
-        content = self.process_tables(content)
+        # content = self.process_tables(content)
         
         # 写入向量友好的Markdown文件
         self.write_markdown(content, self.emb_md_path) 
