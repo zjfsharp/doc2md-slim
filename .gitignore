@@ -46,5 +46,5 @@ images/
 *.swp
 *.swo
 
-test.docx
+*.docx
 test.pdf
